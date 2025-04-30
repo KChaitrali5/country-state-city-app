@@ -45,7 +45,7 @@
         }
 
         input[type="text"] {
-            width: 100%;
+            width: 50%!important;
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ccc;
@@ -97,16 +97,14 @@
         }
 
 
-        /* table {
+        select, input[type="text"] {
             width: 100%;
-            margin-top: 30px;
-            border-collapse: collapse;
-        } */
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
 
-        /* th, td {
-            padding: 12px;
-            text-align: left;
-        } */
 
         th {
             background-color: #2c3e50;
@@ -159,7 +157,7 @@
     @csrf
     <h2 id="form-title">Add New</h2>
     <input type="hidden" name="id" id="country-id">
-    <input name="country_name" id="country-name" placeholder="Country Name" required>
+    <input name="country_name" type="text" id="country-name" placeholder="Country Name" required>
     <button type="submit" class="add-btn" id="form-button">Add Country</button>
 </form>
 
@@ -180,12 +178,8 @@
                     <td>{{ $country->country_name }}</td>
                     <td>
                         <div class="form-container">
-                            <!-- <form method="POST" action="{{ route('countries.update', $country->id) }}"> -->
-                                @csrf
-                                @method('PUT')
                                 <input name="country_name" type="hidden" value="{{ $country->country_name }}" required>
                                 <button type="button" class="update-btn" onclick="editCountry('{{ $country->id }}', '{{ $country->country_name }}')">Update</button>
-                            <!-- </form> -->
                         </div>
                         <div class="form-container">
                             <form method="POST" action="{{ route('countries.destroy', $country->id) }}">

@@ -233,29 +233,29 @@
 
 <script>
     function editCity(id, name, stateId, countryId) {
-        // Populate the form with the selected city's details
+      
         $('#city-id').val(id);
         $('#city-name').val(name);
         $('#form-title').text('Edit City');
         $('#form-button').text('Update City');
 
-        // Set the country and state selects based on the selected city's data
-        $('#city-country').val(countryId).change(); // Set country and trigger state population
+      
+        $('#city-country').val(countryId).change(); 
         
-        // Wait for the country selection change to populate the state select options
+       
         setTimeout(() => {
-            $('#city-state').val(stateId); // Set the state after the country is populated
+            $('#city-state').val(stateId); 
         }, 500);
 
-        // Disable the country and state select elements to prevent changes
+        
         $('#city-country').prop('disabled', true);
         $('#city-state').prop('disabled', true);
 
-        // Change the form action to update the city
+        
         const updateUrl = `/cities/${id}`;
         $('#city-form').attr('action', updateUrl);
 
-        // Ensure the form uses the PUT method for updates
+       
         if (!$('#city-form input[name="_method"]').length) {
             $('#city-form').append('<input type="hidden" name="_method" value="PUT">');
         } else {
@@ -263,7 +263,7 @@
         }
     }
 
-    // Listen for country selection change to dynamically load states
+   
     document.getElementById('city-country').addEventListener('change', function () {
         const countryId = this.value;
         fetch(`/states-by-country/${countryId}`)

@@ -184,8 +184,6 @@
                     <td>{{ $state->country->country_name }}</td>
                     <td>
                         <div class="form-container">
-                            @csrf
-                            @method('PUT')
                             <button type="button" class="update-btn" onclick="editState('{{ $state->id }}', '{{ $state->state_name }}', '{{ $state->country_id }}')">Update</button>
                         </div>
                         <div class="form-container">
@@ -217,7 +215,6 @@
         const updateUrl = `states/${id}`;
         $('#state-form').attr('action', updateUrl);
 
-        // Inject or update the PUT method
         if (!$('#state-form input[name="_method"]').length) {
             $('#state-form').append('<input type="hidden" name="_method" value="PUT">');
         } else {
