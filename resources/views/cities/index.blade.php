@@ -213,22 +213,6 @@
     $(document).ready(function () {
         $('#cities-table').DataTable();
     });
-
-    document.getElementById('city-country').addEventListener('change', function () {
-        const countryId = this.value;
-        fetch(`/states-by-country/${countryId}`)
-            .then(response => response.json())
-            .then(data => {
-                const stateSelect = document.getElementById('city-state');
-                stateSelect.innerHTML = '<option disabled selected>Select State</option>';
-                data.forEach(state => {
-                    const option = document.createElement('option');
-                    option.value = state.id;
-                    option.text = state.state_name;
-                    stateSelect.add(option);
-                });
-            });
-    });
 </script>
 
 <script>
