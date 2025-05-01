@@ -5,200 +5,102 @@
     <title>States</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
     <!-- jQuery & DataTables -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-
-    <style>
-        body, h1, h2, table {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f7fa;
-            color: #333;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #2d3a45;
-        }
-
-        h2 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
-        .add-form {
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            margin: 20px auto;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .form-row select,
-        .form-row input {
-            flex: 1;
-        }
-
-        select, input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        button {
-            padding: 10px 20px;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .add-btn {
-            background-color: #27ae60;
-            margin-left: 10px;
-        }
-
-        .add-btn:hover {
-            background-color: #2ecc71;
-        }
-
-        .update-btn {
-            background-color: #f1c40f;
-        }
-
-        .update-btn:hover {
-            background-color: #f39c12;
-        }
-
-        .delete-btn {
-            background-color: #e74c3c;
-        }
-
-        .delete-btn:hover {
-            background-color: #c0392b;
-        }
-
-        .table-container {
-            width: 90%;
-            max-width: 1000px;
-            margin: 20px auto;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 5px;
-        }
-
-        th {
-            background-color: #2c3e50;
-            color: white;
-        }
-
-        td {
-            background-color: #f9f9f9;
-            border-top: 1px solid #ddd;
-        }
-
-        .form-container {
-            display: inline-block;
-        }
-
-        .form-container form {
-            margin: 0 5px;
-        }
-
-        @media (max-width: 600px) {
-            form {
-                width: 100%;
-            }
-
-            table {
-                font-size: 14px;
-            }
-
-            th, td {
-                padding: 10px;
-            }
-
-            button {
-                width: 100%;
-                padding: 12px;
-            }
-        }
-    </style>
 </head>
-<body>
+<body class="bg-light">
 
-<h1>States</h1>
+<div class="container my-5">
 
-<!-- Add/Update State Form -->
-<form method="POST" class="add-form" id="state-form" action="{{ route('states.store') }}">
-    @csrf
-    <h2 id="form-title">Add New State</h2>
-    <input type="hidden" name="id" id="state-id">
+    <!-- Main title -->
+    <h1 class="text-center text-dark mb-4">States</h1>
 
-    <div class="form-row">
-        <select name="country_id" id="country-select" required>
-            <option value="" selected disabled>Select Country</option>
-            @foreach($countries as $country)
-                <option value="{{ $country->id }}">{{ $country->country_name }}</option>
-            @endforeach
-        </select>
+    <!-- Add/Update State Form -->
+    <div class="card shadow-sm mb-4" style="max-width: 800px; margin: 0 auto;">
+        <div class="card-body">
+            <form method="POST" class="add-form" id="state-form" action="{{ route('states.store') }}">
+                @csrf
+                <h4 id="form-title" class="mb-3">Add New State</h4>
+                <input type="hidden" name="id" id="state-id">
 
-        <input name="state_name" type="text" id="state-name" placeholder="State Name" required>
+                <!-- Use grid system to align form inputs in the same row -->
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <select name="country_id" id="country-select" class="form-control" required>
+                            <option value="" selected disabled>Select Country</option>
+                            @foreach($countries as $country)
+                                <option value="{{ $country->id }}">{{ $country->country_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <input name="state_name" type="text" class="form-control" id="state-name" placeholder="State Name" required>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-success w-100" id="form-button">Add State</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <button type="submit" class="add-btn" id="form-button">Add State</button>
-</form>
+    <!-- States Table -->
+    <div class="card shadow-sm" style="max-width: 800px; margin: 0 auto;">
+        <div class="card-body">
+            <table id="states-table" class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Sr. No.</th>
+                        <th>State Name</th>
+                        <th>Country</th>
+                        <th style="width: 150px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($states as $index => $state)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $state->state_name }}</td>
+                            <td>{{ $state->country->country_name }}</td>
+                            <td>
+                                <div class="d-flex gap-2 justify-content-center">
+                                    <!-- Update Button with Bootstrap Icon -->
+                                    <button type="button" class="btn btn-warning" onclick="editState('{{ $state->id }}', '{{ $state->state_name }}', '{{ $state->country_id }}')">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
 
-<!-- States Table -->
-<div class="table-container">
-    <table id="states-table" class="display">
-        <thead>
-            <tr>
-                <th>State Name</th>
-                <th>Country</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($states as $state)
-                <tr>
-                    <td>{{ $state->state_name }}</td>
-                    <td>{{ $state->country->country_name }}</td>
-                    <td>
-                        <div class="form-container">
-                            <button type="button" class="update-btn" onclick="editState('{{ $state->id }}', '{{ $state->state_name }}', '{{ $state->country_id }}')">Update</button>
-                        </div>
-                        <div class="form-container">
-                        <form method="POST" action="{{ route('states.destroy', $state->id) }}">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="delete-btn">Delete</button>
-                        </form>
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+                                    <!-- Delete Button with Bootstrap Icon -->
+                                    <form method="POST" action="{{ route('states.destroy', $state->id) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     $(document).ready(function () {
@@ -223,5 +125,24 @@
     }
 </script>
 
+<script>
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: '{{ session('success') }}',
+            confirmButtonColor: '#198754' // Bootstrap green
+        });
+    @endif
+
+    @if($errors->any())
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            html: '{!! implode("<br>", $errors->all()) !!}',
+            confirmButtonColor: '#dc3545' // Bootstrap red
+        });
+    @endif
+</script>
 </body>
 </html>

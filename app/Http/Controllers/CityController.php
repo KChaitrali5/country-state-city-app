@@ -26,7 +26,7 @@ class CityController extends Controller
         ]);
 
         City::create($request->only('country_id', 'state_id', 'city_name'));
-        return redirect()->route('cities.index');
+        return redirect()->route('cities.index')->with('success', 'City added successfully.');
     }
 
     public function update(Request $request, $id)

@@ -23,7 +23,7 @@ class StateController extends Controller
         ]);
 
         State::create($request->only('country_id', 'state_name'));
-        return redirect()->route('states.index');
+        return redirect()->route('states.index')->with('success', 'State added successfully.');
     }
 
     public function update(Request $request, $id)
@@ -35,7 +35,7 @@ class StateController extends Controller
         $state = State::findOrFail($id);
         $state->update(['state_name' => $request->state_name]);
 
-        return redirect()->route('states.index');
+        return redirect()->route('states.index')->with('success', 'State updated successfully.');
     }
 
     public function destroy($id)

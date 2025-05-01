@@ -17,7 +17,7 @@ class CountryController extends Controller
     {
         $request->validate(['country_name' => 'required|string']);
         Country::create($request->only('country_name'));
-        return redirect()->route('countries.index');
+        return redirect()->route('countries.index')->with('success', 'Country added successfully.');
     }
 
     public function update(Request $request, $id)
@@ -25,7 +25,7 @@ class CountryController extends Controller
         $request->validate(['country_name' => 'required|string']);
         $country = Country::findOrFail($id);
         $country->update($request->only('country_name'));
-        return redirect()->route('countries.index');
+        return redirect()->route('countries.index')->with('success', 'Country updated successfully.');
     }
 
     public function destroy($id)
@@ -43,6 +43,6 @@ class CountryController extends Controller
         // Delete the country
         $country->delete();
 
-        return redirect()->route('countries.index')->with('success', 'Country and related states & cities deleted.');
+        return redirect()->route('countries.index')->with('success', 'Country and related states and cities deleted.');
     }
 }
